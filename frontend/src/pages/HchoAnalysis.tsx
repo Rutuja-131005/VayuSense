@@ -23,7 +23,7 @@ const demoHotspots = [
   { id: 7, lat: 26.5, lon: 92.3, hcho: 1.6e-4, fires: 18, source: 'biomass_burning', state: 'Assam', area: 1400 },
 ];
 
-const demoFires = Array.from({ length: 120 }, (_, i) => ({
+const demoFires = Array.from({ length: 120 }, () => ({
   lat: 24 + Math.random() * 8,
   lon: 72 + Math.random() * 20,
   frp: 5 + Math.random() * 100,

@@ -138,7 +138,6 @@ const InteractiveMap: React.FC = () => {
   const mapInstance = useRef<L.Map | null>(null);
   
   const [selectedStates, setSelectedStates] = useState<string[]>([]);
-  const [selectedPollutant, setSelectedPollutant] = useState('aqi');
   
   // Keep refs for dynamic layers to avoid complete reinitialization of the map
   const polygonsGroupRef = useRef<L.FeatureGroup | null>(null);

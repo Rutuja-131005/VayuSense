@@ -26,14 +26,12 @@ interface SummaryData {
 const Dashboard: React.FC = () => {
   const [summary, setSummary] = useState<SummaryData | null>(null);
   const [stateData, setStateData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadDashboard();
   }, []);
 
   const loadDashboard = async () => {
-    setLoading(true);
     try {
       const [summaryRes, stateRes] = await Promise.allSettled([
         api.getDashboardSummary(),
@@ -52,7 +50,6 @@ const Dashboard: React.FC = () => {
         total_fire_events: 1283,
       });
     }
-    setLoading(false);
   };
 
   const displaySummary = summary || {
