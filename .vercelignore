@@ -1,0 +1,25 @@
+# Exclude Python virtual environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+backend/tests/
+ai_models/
+
+# Exclude Node modules and build outputs
+node_modules/
+dist/
+.vite/
+
+# Exclude local configuration and caches
+.gemini/
+.system_generated/
+.tempmediaStorage/
+docs/
+*.log
+*.db
+*.sqlite
+backend/aqi_platform.db
+backend/aqi_platform.db-shm
+backend/aqi_platform.db-wal
