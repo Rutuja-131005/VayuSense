@@ -33,12 +33,12 @@ const Dashboard: React.FC = () => {
 
   const loadDashboard = async () => {
     try {
-      const [summaryRes, stateRes] = await Promise.allSettled([
+      const [_summaryRes, _stateRes] = await Promise.allSettled([
         api.getDashboardSummary(),
         api.getStatsByState(),
       ]);
-      if (summaryRes.status === 'fulfilled') setSummary(summaryRes.value);
-      if (stateRes.status === 'fulfilled') setStateData(stateRes.value.states || []);
+      if (_summaryRes.status === 'fulfilled') setSummary(_summaryRes.value);
+      if (_stateRes.status === 'fulfilled') setStateData(_stateRes.value.states || []);
     } catch {
       // Use fallback data
       setSummary({

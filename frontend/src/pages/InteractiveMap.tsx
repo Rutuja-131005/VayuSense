@@ -137,13 +137,13 @@ const InteractiveMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<L.Map | null>(null);
   
-  const [selectedStates, setSelectedStates] = useState<string[]>([]);
+  const [_selectedStates, _setSelectedStates] = useState<string[]>([]);
   
   // Keep refs for dynamic layers to avoid complete reinitialization of the map
   const polygonsGroupRef = useRef<L.FeatureGroup | null>(null);
   const markersGroupRef = useRef<L.FeatureGroup | null>(null);
 
-  console.log("Render body: selectedStates =", selectedStates);
+  console.log("Render body: selectedStates =", _selectedStates);
 
   // Initialize Map Once
   useEffect(() => {
@@ -185,7 +185,7 @@ const InteractiveMap: React.FC = () => {
 
     if (!map || !polygonsGroup || !markersGroup) return;
 
-    console.log("Effect start: selectedStates =", selectedStates);
+    console.log("Effect start: selectedStates =", _selectedStates);
 
     // Clear previous elements
     polygonsGroup.clearLayers();
@@ -193,12 +193,12 @@ const InteractiveMap: React.FC = () => {
 
     // Determine filtered stations
     const activeStations = demoStations.filter(st => 
-      selectedStates.length === 0 || selectedStates.includes(st.state)
+      _selectedStates.length === 0 || _selectedStates.includes(st.state)
     );
     console.log("Active stations count:", activeStations.length);
 
     // 1. Draw highlighted state boundaries
-    selectedStates.forEach(stateName => {
+    _selectedStates.forEach(stateName => {
       const coords = STATE_BOUNDARIES[stateName];
       if (coords) {
         console.log("Adding polygon for state:", stateName);
@@ -249,7 +249,7 @@ const InteractiveMap: React.FC = () => {
     });
 
     // 3. Zoom / Fit Bounds
-    if (selectedStates.length > 0 && polygonsGroup.getLayers().length > 0) {
+    if (_selectedStates.length > 0 && polygonsGroup.getLayers().length > 0) {
       const bounds = polygonsGroup.getBounds();
       console.log("Calling fitBounds with bounds:", bounds);
       if (bounds && typeof bounds.isValid === 'function' && bounds.isValid()) {
@@ -262,24 +262,24 @@ const InteractiveMap: React.FC = () => {
     }
     console.log("Effect end");
 
-  }, [selectedStates]);
+  }, [_selectedStates]);
 
   // Handle Multi-state Toggle Selection
   const toggleState = (state: string) => {
-    if (selectedStates.includes(state)) {
-      setSelectedStates(selectedStates.filter(s => s !== state));
+    if (_selectedStates.includes(state)) {
+      _setSelectedStates(_selectedStates.filter(s => s !== state));
     } else {
-      setSelectedStates([...selectedStates, state]);
+      _setSelectedStates([..._selectedStates, state]);
     }
   };
 
   const clearAllStates = () => {
-    setSelectedStates([]);
+    _setSelectedStates([]);
   };
 
   // Group stations in selected states by category to view statistics
   const currentActiveStations = demoStations.filter(st =>
-    selectedStates.length === 0 || selectedStates.includes(st.state)
+    _selectedStates.length === 0 || _selectedStates.includes(st.state)
   );
 
   const stats = {
@@ -307,7 +307,7 @@ const InteractiveMap: React.FC = () => {
           <div className="card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
               <span className="card-title">Select States</span>
-              {selectedStates.length > 0 && (
+              {_selectedStates.length > 0 && (
                 <button 
                   onClick={clearAllStates} 
                   style={{
@@ -345,14 +345,14 @@ const InteractiveMap: React.FC = () => {
                     userSelect: 'none',
                     padding: '4px 6px',
                     borderRadius: 'var(--radius-sm)',
-                    background: selectedStates.includes(state) ? 'rgba(6, 182, 212, 0.08)' : 'transparent',
-                    border: selectedStates.includes(state) ? '1px solid rgba(6, 182, 212, 0.2)' : '1px solid transparent',
+                    background: _selectedStates.includes(state) ? 'rgba(6, 182, 212, 0.08)' : 'transparent',
+                    border: _selectedStates.includes(state) ? '1px solid rgba(6, 182, 212, 0.2)' : '1px solid transparent',
                     transition: 'all var(--transition-fast)',
                   }}
                 >
                   <input
                     type="checkbox"
-                    checked={selectedStates.includes(state)}
+                    checked={_selectedStates.includes(state)}
                     onChange={() => toggleState(state)}
                     style={{
                       accentColor: 'var(--accent-cyan)',
