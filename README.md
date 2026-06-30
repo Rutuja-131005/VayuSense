@@ -1,214 +1,115 @@
-# 🛰️ VayuSense — ISRO AQI & HCHO Hotspot Detection Platform
+# 🛰️ VayuSense — AI-Powered Environmental Decision Support System (EDSS)
 
-> **VayuSense** developed for **ISRO Hackathon 2026** — Development of Surface AQI & Identification of HCHO Hotspots over India using Satellite Data
+> **Developed for ISRO Hackathon 2026** — *Development of Surface AQI & Identification of HCHO Hotspots over India using Satellite Data.*
 
 [![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-green.svg)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/React-18-61dafb.svg)](https://react.dev)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.4-ee4c2c.svg)](https://pytorch.org)
+[![Google Earth Engine](https://img.shields.io/badge/Google_Earth_Engine-GEE-34A853.svg)](https://earthengine.google.com/)
+
+**VayuSense** is not just a dashboard; it is a comprehensive, production-grade **Environmental Decision Support System (EDSS)** designed for ISRO scientists, the Central Pollution Control Board (CPCB), and Disaster Management Authorities. 
+
+By fusing multi-sensor satellite data (INSAT-3D, Sentinel-5P, MODIS) with meteorological reanalysis (ERA5) and deep learning, VayuSense bridges the gap between raw satellite column densities and actionable, ground-level environmental intelligence.
 
 ---
 
-## 📋 Problem Statement
+## 🌟 The Impact
 
-Develop an AI-powered web platform that:
-
-1. **Surface AQI Estimation**: Uses satellite observations (INSAT-3D AOD, Sentinel-5P NO₂/SO₂/CO/O₃) and meteorological reanalysis (ERA5) combined with CPCB ground measurements to predict surface-level Air Quality Index using a CNN-LSTM deep learning model.
-
-2. **HCHO Hotspot Identification**: Detects formaldehyde emission hotspots using Sentinel-5P HCHO data, correlates with MODIS/VIIRS active fire detections, and performs wind transport analysis for source region identification.
+* **For Public Health:** Predicts highly accurate Surface Air Quality Index (AQI) out of raw satellite observations using a hybrid **CNN-LSTM** architecture.
+* **For Disaster Management:** Automatically detects Formaldehyde (HCHO) emission hotspots and correlates them with active biomass burning and forest fires.
+* **For Government Action:** Replaces traditional dashboards with a **Mission Control** interface, XAI (Explainable AI), and actionable recommendations to combat pollution at the source.
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Architecture & Data Pipeline
 
-```
+VayuSense utilizes a clean, decoupled microservices architecture to process massive amounts of geospatial data in near real-time.
+
+```text
 ┌──────────────────────────────────────────────────────────────┐
-│                    Data Sources                              │
+│                  Live Satellite Feeds (GEE)                  │
 │  INSAT-3D │ Sentinel-5P │ ERA5 │ MODIS/VIIRS │ CPCB         │
 └─────────────────────┬────────────────────────────────────────┘
                       │
            ┌──────────▼──────────┐
-           │   Data Pipeline     │ ← GEE API / Simulated Fallback
-           │   (Preprocessing)   │
+           │   Data Pipeline     │ ← Auto-Sync & Preprocessing
+           │   (FastAPI Backend) │
            └──────────┬──────────┘
                       │
           ┌───────────┴───────────┐
           │                       │
-   ┌──────▼───────┐     ┌────────▼────────┐
-   │  CNN-LSTM    │     │ HCHO Hotspot    │
-   │  AQI Model   │     │ Detection       │
-   └──────┬───────┘     │ (DBSCAN + Fire) │
-          │              └────────┬────────┘
+   ┌──────▼───────┐     ┌─────────▼───────┐
+   │ CNN-LSTM     │     │ HCHO Hotspot    │
+   │ Surface AQI  │     │ Detection       │
+   │ PyTorch Model│     │ (DBSCAN + Fire) │
+   └──────┬───────┘     └─────────┬───────┘
           │                       │
    ┌──────▼───────────────────────▼──────┐
-   │          FastAPI Backend            │
-   │     (REST APIs + SQLAlchemy)        │
-   └──────────────────┬─────────────────┘
+   │     Explainable AI (SHAP Module)    │
+   └──────────────────┬──────────────────┘
                       │
    ┌──────────────────▼──────────────────┐
-   │       React + TypeScript Frontend   │
-   │    (Leaflet Maps + Chart.js)        │
+   │    VayuSense EDSS Mission Control   │
+   │  (React + Vite + Leaflet + ChartJS) │
    └─────────────────────────────────────┘
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🛰️ Integrated Data Sources
 
-### Prerequisites
-- Python 3.11+
-- Node.js 18+
-- Git
+| Source | Product | Provider | Role in VayuSense |
+|--------|---------|----------|-------------------|
+| **INSAT-3D** | Aerosol Optical Depth (AOD) | ISRO | Critical baseline for particulate matter proxy. |
+| **Sentinel-5P** | NO₂, SO₂, CO, O₃, HCHO | ESA/Copernicus | Identifies trace gases and HCHO emission hotspots. |
+| **MODIS/VIIRS** | Active Fire Anomalies | NASA / NOAA | Correlates fire events (e.g., stubble burning) with HCHO. |
+| **ERA5** | Temp, Wind, RH, PBLH | ECMWF | Enables wind transport and dispersion analysis. |
+| **CPCB CAAQMS**| Ground-level PM2.5, AQI | Govt. of India | Serves as Ground Truth to train the CNN-LSTM. |
 
-### Backend Setup
+---
+
+## 🧠 AI Engine: CNN-LSTM Hybrid + XAI
+
+1. **Spatial Feature Extraction:** A 3-layer Convolutional Neural Network (CNN) extracts spatial anomalies from satellite rasters (e.g., industrial clusters, regional fires).
+2. **Temporal Dynamics:** A 2-layer Long Short-Term Memory (LSTM) network captures the buildup and decay of pollutants over a 7-day lookback window.
+3. **Explainable AI (SHAP):** VayuSense doesn't just predict; it explains. Our SHAP module visualizes feature importance, telling decision-makers *why* AQI is high (e.g., 45% Wind Transport, 30% HCHO Hotspot, 25% Low PBLH).
+
+---
+
+## 🚀 Quick Start (Running Locally)
+
+### 1. Backend (FastAPI + PyTorch)
 ```bash
 cd backend
 pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 ```
+*API Docs available at `http://localhost:8000/docs`*
 
-### Frontend Setup
+### 2. Frontend (React + Vite)
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
+*Mission Control available at `http://localhost:5173`*
 
-### Docker (Full Stack)
+### 3. Docker (Full Stack Deployment)
 ```bash
 docker-compose up --build
 ```
 
-The backend API will be available at `http://localhost:8000/docs`
-The frontend will be available at `http://localhost:5173`
-
 ---
 
-## 📁 Project Structure
+## 🏆 Project Modules (Phase 1-4 Complete)
 
-```
-AQI/
-├── backend/                    # FastAPI Backend
-│   ├── app/
-│   │   ├── api/                # REST API Routes
-│   │   │   ├── auth.py         # Authentication (JWT)
-│   │   │   ├── aqi.py          # AQI data & predictions
-│   │   │   ├── hotspots.py     # HCHO hotspot detection
-│   │   │   └── dashboard.py    # Dashboard aggregations
-│   │   ├── core/               # Configuration & Database
-│   │   ├── models/             # SQLAlchemy ORM Models
-│   │   ├── schemas/            # Pydantic Request/Response
-│   │   ├── services/           # Business Logic
-│   │   │   ├── gee_service.py  # Google Earth Engine
-│   │   │   ├── model_service.py# CNN-LSTM Inference
-│   │   │   └── hotspot_service.py
-│   │   ├── utils/              # Spatial Processing & XAI
-│   │   └── main.py             # FastAPI Entry Point
-│   ├── tests/                  # pytest Test Suite
-│   └── requirements.txt
-├── frontend/                   # React + TypeScript Frontend
-│   └── src/
-│       ├── components/         # Reusable UI Components
-│       ├── pages/              # Page Components
-│       └── services/           # API Client
-├── ai_models/                  # Deep Learning Module
-│   ├── model.py                # CNN-LSTM Architecture
-│   ├── train.py                # Training Pipeline
-│   ├── evaluate.py             # Evaluation Metrics
-│   └── data_pipeline.py        # Data Processing
-├── docs/                       # Documentation
-├── docker-compose.yml          # Docker Orchestration
-└── README.md
-```
-
----
-
-## 🧠 AI Model — CNN-LSTM Hybrid
-
-### Architecture
-- **CNN Block**: Conv2D → BatchNorm → ReLU → MaxPool (3 layers) for spatial feature extraction from satellite rasters
-- **LSTM Block**: 2-layer LSTM with LayerNorm for temporal dynamics (7-day lookback)
-- **Output Head**: Fully connected layers predicting PM2.5, NO₂, SO₂, CO, O₃
-
-### Training
-```bash
-cd ai_models
-python train.py
-```
-
-### Evaluation Metrics
-| Metric | Formula |
-|--------|---------|
-| RMSE | √(1/n · Σ(ŷᵢ - yᵢ)²) |
-| MAE | (1/n) · Σ\|ŷᵢ - yᵢ\| |
-| R | Pearson correlation coefficient |
-| R² | 1 - SS_res / SS_tot |
-
----
-
-## 🗺️ Data Sources
-
-| Source | Product | Provider |
-|--------|---------|----------|
-| INSAT-3D | Aerosol Optical Depth (AOD) | ISRO |
-| Sentinel-5P TROPOMI | NO₂, SO₂, CO, O₃, HCHO | ESA/Copernicus |
-| MODIS (MCD14DL) | Active Fire Hotspots | NASA |
-| VIIRS (VNP14IMGTDL) | Active Fire NRT | NASA/NOAA |
-| ERA5 | Temperature, Wind, RH, PBLH | ECMWF |
-| CPCB CAAQMS | Ground-level PM2.5, AQI | Govt. of India |
-
----
-
-## 🔬 HCHO Hotspot Detection
-
-1. **DBSCAN Clustering** on elevated Sentinel-5P HCHO columns (threshold: 1×10⁻⁴ mol/m²)
-2. **Fire Correlation** with co-located MODIS/VIIRS detections (Pearson r)
-3. **Source Classification**: Biomass burning, industrial, biogenic, mixed
-4. **Wind Transport**: ERA5 u/v trajectory integration for downwind dispersion estimation
-
----
-
-## 📊 API Documentation
-
-After starting the backend, visit:
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
-
-### Key Endpoints
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/login` | JWT authentication |
-| GET | `/api/aqi/stations/geojson` | Station locations as GeoJSON |
-| POST | `/api/aqi/predict` | AI-based AQI prediction |
-| POST | `/api/aqi/predict/explain` | Prediction + XAI analysis |
-| GET | `/api/aqi/map/india` | India-wide AQI heatmap |
-| GET | `/api/hotspots/detect` | Run HCHO hotspot detection |
-| GET | `/api/hotspots/fires` | Active fire events |
-| GET | `/api/hotspots/wind-transport` | Wind field vectors |
-| GET | `/api/dashboard/summary` | Dashboard statistics |
-
----
-
-## 🧪 Testing
-
-```bash
-cd backend
-pytest tests/ -v
-```
-
----
-
-## 👥 Team (4 Members)
-
-| Member | Role | Focus Area |
-|--------|------|------------|
-| 1 | Remote Sensing / AI | Data Pipeline, CNN-LSTM Training |
-| 2 | Backend / GIS | FastAPI, Hotspot Detection, PostGIS |
-| 3 | Frontend / UI | React, Leaflet Maps, Chart.js |
-| 4 | QA / Documentation | Testing, XAI, SRS, Deployment |
+1. **Mission Control:** Live executive dashboard tracking national AQI, active stations, and satellite connection status.
+2. **Live Earth Observation:** Highly interactive geospatial Leaflet maps allowing multi-layer stacking (NO₂, HCHO, AOD, Fire, Wind).
+3. **Temporal Intelligence:** Timeline sliders to animate historical replay and pollution dispersion.
+4. **Decision Support Engine (Upcoming):** Actionable recommendations for health advisories based on predictive models.
 
 ---
 
 ## 📄 License
-
-Developed for ISRO Hackathon 2026. For academic and research purposes.
+Developed for the **ISRO Hackathon 2026**. For academic, governmental, and research purposes.

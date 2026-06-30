@@ -48,6 +48,10 @@ class ApiService {
         const { data } = await this.client.get('/api/dashboard/stats/pollutant-distribution');
         return data;
     }
+    async getSatelliteStatus() {
+        const { data } = await this.client.get('/api/dashboard/satellite-status');
+        return data;
+    }
     // ── AQI ─────────────────────────────────────────────────────
     async getStations(state) {
         const params = state ? { state } : {};

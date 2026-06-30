@@ -11,19 +11,23 @@ import api from '../services/api';
 const Dashboard = () => {
     const [summary, setSummary] = useState(null);
     const [stateData, setStateData] = useState([]);
+    const [satelliteStatus, setSatelliteStatus] = useState(null);
     useEffect(() => {
         loadDashboard();
     }, []);
     const loadDashboard = async () => {
         try {
-            const [_summaryRes, _stateRes] = await Promise.allSettled([
+            const [_summaryRes, _stateRes, _satRes] = await Promise.allSettled([
                 api.getDashboardSummary(),
                 api.getStatsByState(),
+                api.getSatelliteStatus(),
             ]);
             if (_summaryRes.status === 'fulfilled')
                 setSummary(_summaryRes.value);
             if (_stateRes.status === 'fulfilled')
                 setStateData(_stateRes.value.states || []);
+            if (_satRes.status === 'fulfilled')
+                setSatelliteStatus(_satRes.value);
         }
         catch {
             // Use fallback data
@@ -45,7 +49,24 @@ const Dashboard = () => {
         total_hotspots: 47,
         total_fire_events: 1283,
     };
-    return (_jsxs("div", { className: "page-container animate-fade-in", children: [_jsxs("div", { className: "stat-cards-grid stagger-children", children: [_jsx(StatCard, { label: "Monitoring Stations", value: displaySummary.total_stations, trend: `${displaySummary.active_stations} active`, color: "blue", icon: "\uD83D\uDCE1" }), _jsx(StatCard, { label: "Average AQI", value: displaySummary.avg_aqi?.toFixed(0) || '—', trend: "National average (24h)", color: "orange", icon: "\uD83D\uDCA8" }), _jsx(StatCard, { label: "Max AQI", value: displaySummary.max_aqi?.toFixed(0) || '—', trend: "Highest recorded today", color: "red", icon: "\u26A0\uFE0F" }), _jsx(StatCard, { label: "HCHO Hotspots", value: displaySummary.total_hotspots, trend: "Active clusters detected", color: "purple", icon: "\uD83D\uDD25" }), _jsx(StatCard, { label: "Fire Events", value: displaySummary.total_fire_events.toLocaleString(), trend: "MODIS + VIIRS detections", color: "orange", icon: "\uD83C\uDF0B" }), _jsx(StatCard, { label: "Model Confidence", value: "87%", trend: "CNN-LSTM v1.0", color: "green", icon: "\uD83E\uDDE0" })] }), _jsxs("div", { className: "grid-2", style: { marginBottom: '20px' }, children: [_jsx(AQITimeSeriesChart, {}), _jsx(PollutantBarChart, {})] }), _jsxs("div", { className: "grid-2", style: { marginBottom: '20px' }, children: [_jsx(AQICategoryDoughnut, {}), _jsx(PollutantRadar, {})] }), _jsxs("div", { className: "card", children: [_jsx("div", { className: "card-header", children: _jsxs("div", { children: [_jsx("div", { className: "card-title", children: "State-wise AQI Summary" }), _jsx("div", { className: "card-subtitle", children: "Average AQI from CPCB monitoring stations" })] }) }), _jsx("div", { style: { overflowX: 'auto' }, children: _jsxs("table", { style: {
+    return (_jsxs("div", { className: "page-container animate-fade-in", children: [_jsxs("div", { className: "stat-cards-grid stagger-children", children: [_jsx(StatCard, { label: "Monitoring Stations", value: displaySummary.total_stations, trend: `${displaySummary.active_stations} active`, color: "blue", icon: "\uD83D\uDCE1" }), _jsx(StatCard, { label: "Average AQI", value: displaySummary.avg_aqi?.toFixed(0) || '—', trend: "National average (24h)", color: "orange", icon: "\uD83D\uDCA8" }), _jsx(StatCard, { label: "Max AQI", value: displaySummary.max_aqi?.toFixed(0) || '—', trend: "Highest recorded today", color: "red", icon: "\u26A0\uFE0F" }), _jsx(StatCard, { label: "HCHO Hotspots", value: displaySummary.total_hotspots, trend: "Active clusters detected", color: "purple", icon: "\uD83D\uDD25" }), _jsx(StatCard, { label: "Fire Events", value: displaySummary.total_fire_events.toLocaleString(), trend: "MODIS + VIIRS detections", color: "orange", icon: "\uD83C\uDF0B" }), _jsx(StatCard, { label: "Model Confidence", value: "87%", trend: "CNN-LSTM v1.0", color: "green", icon: "\uD83E\uDDE0" })] }), 
+        
+        satelliteStatus && (_jsxs("div", { className: "card", style: { marginBottom: '20px' }, children: [
+            _jsx("div", { className: "card-header", children: _jsx("div", { className: "card-title", children: "📡 Live Satellite Intelligence Feed" }) }),
+            _jsx("div", { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }, children: 
+                satelliteStatus.satellites.map((sat) => (
+                    _jsxs("div", { key: sat.name, style: { background: 'var(--bg-primary)', padding: '16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }, children: [
+                        _jsx("div", { style: { fontWeight: 600, fontSize: '14px', marginBottom: '8px' }, children: sat.name }),
+                        _jsxs("div", { style: { display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }, children: [_jsx("span", { color: 'var(--text-muted)' }, "Status:"), _jsx("span", { className: `badge badge-${sat.status === 'connected' ? 'good' : 'moderate'}`, children: sat.status })] }),
+                        _jsxs("div", { style: { display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }, children: [_jsx("span", { color: 'var(--text-muted)' }, "Quality:"), _jsx("span", { children: sat.data_quality })] }),
+                        _jsxs("div", { style: { display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }, children: [_jsx("span", { color: 'var(--text-muted)' }, "Latency:"), _jsx("span", { children: sat.latency })] }),
+                        _jsxs("div", { style: { display: 'flex', justifyContent: 'space-between', fontSize: '12px' }, children: [_jsx("span", { color: 'var(--text-muted)' }, "Bands:"), _jsx("span", { style: { textAlign: 'right' }, children: sat.bands.join(', ') })] })
+                    ] })
+                ))
+            })
+        ] })),
+
+        _jsxs("div", { className: "grid-2", style: { marginBottom: '20px' }, children: [_jsx(AQITimeSeriesChart, {}), _jsx(PollutantBarChart, {})] }), _jsxs("div", { className: "grid-2", style: { marginBottom: '20px' }, children: [_jsx(AQICategoryDoughnut, {}), _jsx(PollutantRadar, {})] }), _jsxs("div", { className: "card", children: [_jsx("div", { className: "card-header", children: _jsxs("div", { children: [_jsx("div", { className: "card-title", children: "State-wise AQI Summary" }), _jsx("div", { className: "card-subtitle", children: "Average AQI from CPCB monitoring stations" })] }) }), _jsx("div", { style: { overflowX: 'auto' }, children: _jsxs("table", { style: {
                                 width: '100%',
                                 borderCollapse: 'collapse',
                                 fontSize: '13px',

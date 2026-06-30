@@ -8,30 +8,33 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 const navSections = [
     {
-        title: 'Overview',
+        title: 'Command Center',
         items: [
             { path: '/', label: 'Home', icon: '🏠' },
-            { path: '/dashboard', label: 'Dashboard', icon: '📊' },
+            { path: '/mission-control', label: 'Mission Control', icon: '📊' },
         ],
     },
     {
-        title: 'Air Quality',
+        title: 'Satellite Intelligence',
         items: [
-            { path: '/aqi-map', label: 'AQI Map', icon: '🗺️' },
+            { path: '/earth-observation', label: 'Live Earth Observation', icon: '🌍' },
+            { path: '/environmental-intelligence', label: 'Environmental Intelligence', icon: '🔥' },
             { path: '/predictions', label: 'AI Predictions', icon: '🤖' },
         ],
     },
     {
-        title: 'HCHO Analysis',
+        title: 'Decision Engine',
         items: [
-            { path: '/hcho', label: 'HCHO Hotspots', icon: '🔥' },
-            { path: '/fire-analysis', label: 'Fire Analysis', icon: '🌋' },
+            { path: '/decision-support', label: 'Decision Support', icon: '💡' },
+            { path: '/scientific-validation', label: 'Scientific Validation', icon: '🔬' },
+            { path: '/research-analytics', label: 'Research Analytics', icon: '📈' },
+            { path: '/reports', label: 'Reports', icon: '📄' },
         ],
     },
     {
         title: 'System',
         items: [
-            { path: '/about', label: 'About', icon: 'ℹ️' },
+            { path: '/system-health', label: 'System Health', icon: '⚙️' },
         ],
     },
 ];
