@@ -6,14 +6,7 @@ const navItems = [
     { label: 'AQI Map', path: '/earth-observation', icon: '🗺️' },
     { label: 'HCHO Hotspots', path: '/environmental-intelligence', icon: '🧪' },
     { label: 'AI Prediction', path: '/predictions', icon: '🧠' },
-    { label: 'Validation', path: '/scientific-validation', icon: '🔬' },
-    { label: 'Fire Monitor', path: '#fire', icon: '🔥', mock: true },
-    { label: 'Wind Analysis', path: '#wind', icon: '💨', mock: true },
-    { label: 'Alerts', path: '#alerts', icon: '🔔', mock: true, badge: 8 },
-    { label: 'Reports', path: '#reports', icon: '📋', mock: true },
-    { label: 'Health Advisory', path: '#health', icon: '❤️', mock: true },
-    { label: 'Data Layers', path: '#layers', icon: '🥞', mock: true },
-    { label: 'Settings', path: '#settings', icon: '⚙️', mock: true }
+    { label: 'Validation', path: '/scientific-validation', icon: '🔬' }
 ];
 
 const dataSources = [
