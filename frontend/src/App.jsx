@@ -12,9 +12,7 @@ import Dashboard from './pages/Dashboard';
 import InteractiveMap from './pages/InteractiveMap';
 import HchoAnalysis from './pages/HchoAnalysis';
 import Predictions from './pages/Predictions';
-import DecisionSupport from './pages/DecisionSupport';
 import ScientificValidation from './pages/ScientificValidation';
-import ResearchAnalytics from './pages/ResearchAnalytics';
 
 const App = () => {
     return (_jsx(BrowserRouter, { children: _jsx("div", { className: "app-layout", children: _jsxs("div", { className: "main-content", children: [_jsx(Navbar, {}), _jsxs(Routes, { children: [
@@ -23,9 +21,7 @@ const App = () => {
         _jsx(Route, { path: "/earth-observation", element: _jsx(InteractiveMap, {}) }), 
         _jsx(Route, { path: "/environmental-intelligence", element: _jsx(HchoAnalysis, {}) }), 
         _jsx(Route, { path: "/predictions", element: _jsx(Predictions, {}) }), 
-        _jsx(Route, { path: "/decision-support", element: _jsx(DecisionSupport, {}) }), 
-        _jsx(Route, { path: "/scientific-validation", element: _jsx(ScientificValidation, {}) }), 
-        _jsx(Route, { path: "/research-analytics", element: _jsx(ResearchAnalytics, {}) })
+        _jsx(Route, { path: "/scientific-validation", element: _jsx(ScientificValidation, {}) })
     ] })] }) }) }));
 };
 export default App;
