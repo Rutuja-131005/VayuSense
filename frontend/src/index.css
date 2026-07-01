@@ -743,6 +743,9 @@ body::before {
   .dashboard-main-grid {
     grid-template-columns: 1fr;
   }
+  .grid-2, .grid-3, .grid-map-sidebar {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
