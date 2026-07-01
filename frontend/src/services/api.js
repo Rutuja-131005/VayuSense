@@ -5,7 +5,10 @@
  * Uses axios with interceptors for auth token management.
  */
 import axios from 'axios';
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+        ? 'http://localhost:8000' 
+        : '');
 class ApiService {
     client;
     constructor() {

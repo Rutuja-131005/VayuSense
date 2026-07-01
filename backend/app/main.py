@@ -96,3 +96,14 @@ def root():
 def health():
     """Simple health check endpoint."""
     return {"status": "healthy"}
+
+
+# ── Mount Frontend Static Files ──────────────────────────────────
+import os
+from fastapi.staticfiles import StaticFiles
+
+# Resolve path to the React build 'dist' directory
+frontend_dist_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
+if os.path.exists(frontend_dist_path):
+    app.mount("/", StaticFiles(directory=frontend_dist_path, html=True), name="static")
+
