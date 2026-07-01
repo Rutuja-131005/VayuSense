@@ -268,7 +268,7 @@ const Dashboard = () => {
             </div>
 
             {/* ── Main Map & Control Layout Grid ── */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: '16px', marginBottom: '16px' }}>
+            <div className="dashboard-main-grid">
                 
                 {/* Air Quality Map India */}
                 <div style={{ ...cardStyle, display: 'flex', flexDirection: 'column', height: '500px', position: 'relative' }}>
@@ -371,7 +371,7 @@ const Dashboard = () => {
             </div>
 
             {/* ── Dense Multi-Chart Analytics Grid Row (8 Widgets in 4 Columns) ── */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+            <div className="dashboard-analytics-grid">
                 
                 {/* 1. AQI Trend */}
                 <div style={{ ...cardStyle, height: '200px', display: 'flex', flexDirection: 'column' }}>

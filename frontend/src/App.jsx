@@ -2,9 +2,9 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 /**
  * App Root Component
  * ====================
- * Sets up routing and the main layout structure.
+ * Sets up routing and the main layout structure with responsive collapsible sidebar.
  */
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
@@ -15,22 +15,27 @@ import Predictions from './pages/Predictions';
 import ScientificValidation from './pages/ScientificValidation';
 
 const App = () => {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(prev => !prev);
+    };
+
     return (
         _jsx(BrowserRouter, {
             children: _jsxs("div", {
                 className: "app-layout",
                 style: { minHeight: '100vh', background: '#0b132b', display: 'flex', flexDirection: 'column' },
                 children: [
-                    _jsx(Header, {}),
+                    _jsx(Header, { onToggleSidebar: toggleSidebar }),
                     _jsxs("div", {
                         style: { display: 'flex', flex: 1, position: 'relative' },
                         children: [
-                            _jsx(Sidebar, {}),
+                            _jsx(Sidebar, { isOpen: isSidebarOpen }),
                             _jsxs("main", {
                                 className: "main-content",
                                 style: {
                                     flex: 1,
-                                    marginLeft: '240px',
                                     paddingTop: '64px',
                                     minHeight: 'calc(100vh - 64px)',
                                     background: '#0b132b',

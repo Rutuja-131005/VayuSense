@@ -710,30 +710,49 @@ body::before {
   to { transform: rotate(360deg); }
 }
 
-/* ── Responsive ────────────────────────────────────────────────── */
+/* ── Responsive & Layout Grids ─────────────────────────────────── */
+.dashboard-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.dashboard-analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-analytics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 1024px) {
-  .sidebar {
+  .left-sidebar {
     transform: translateX(-100%);
   }
-  .sidebar.open {
-    transform: translateX(0);
+  .left-sidebar.open {
+    transform: translateX(0) !important;
   }
   .main-content {
-    margin-left: 0;
+    margin-left: 0 !important;
   }
-  .navbar {
-    left: 0;
-  }
-  .grid-2, .grid-3, .grid-map-sidebar {
+  .dashboard-main-grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 768px) {
   .page-container {
-    padding: 16px;
+    padding: 12px;
   }
-  .stat-cards-grid {
+  .dashboard-analytics-grid {
     grid-template-columns: 1fr;
+  }
+  .top-header {
+    padding: 0 12px !important;
   }
 }

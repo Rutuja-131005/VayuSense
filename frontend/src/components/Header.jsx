@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Header = () => {
+const Header = ({ onToggleSidebar }) => {
     return (
         <header className="top-header" style={{
             position: 'fixed',
@@ -14,8 +14,28 @@ const Header = () => {
             alignItems: 'center',
             padding: '0 20px',
             zIndex: 1000,
-            boxShadow: '0 2px 10px rgba(0,0,0,0.5)'
+            boxShadow: '0 2px 10px rgba(0,0,0,0.5)',
+            gap: '12px'
         }}>
+            {/* Hamburger Button for Mobile */}
+            <button 
+                onClick={onToggleSidebar}
+                style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#f8fafc',
+                    fontSize: '20px',
+                    cursor: 'pointer',
+                    padding: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
+                className="hamburger-btn"
+            >
+                ☰
+            </button>
+
             {/* Left Brand Slot */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <img src="/logo.png" alt="VayuSense Logo" style={{ width: '34px', height: '34px', borderRadius: '50%', objectFit: 'cover' }} />
@@ -24,6 +44,15 @@ const Header = () => {
                     <span style={{ fontSize: '9px', color: 'var(--accent-cyan)', fontWeight: 600, letterSpacing: '0.5px', textTransform: 'uppercase' }}>Environmental Decision Support System</span>
                 </div>
             </div>
+
+            {/* Add responsive media style to hide hamburger on desktop */}
+            <style dangerouslySetInnerHTML={{__html: `
+                @media (min-width: 1025px) {
+                    .hamburger-btn {
+                        display: none !important;
+                    }
+                }
+            `}} />
         </header>
     );
 };

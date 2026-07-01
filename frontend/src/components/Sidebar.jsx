@@ -17,9 +17,9 @@ const dataSources = [
     { name: 'MODIS/VIIRS', status: 'Online' }
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen }) => {
     return (
-        <aside className="left-sidebar" style={{
+        <aside className={`left-sidebar ${isOpen ? 'open' : ''}`} style={{
             position: 'fixed',
             top: '64px',
             left: 0,
