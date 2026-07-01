@@ -18,7 +18,7 @@ import ResearchAnalytics from './pages/ResearchAnalytics';
 
 const App = () => {
     return (_jsx(BrowserRouter, { children: _jsx("div", { className: "app-layout", children: _jsxs("div", { className: "main-content", children: [_jsx(Navbar, {}), _jsxs(Routes, { children: [
-        _jsx(Route, { path: "/", element: _jsx(Home, {}) }), 
+        _jsx(Route, { path: "/", element: _jsx(InteractiveMap, {}) }), 
         _jsx(Route, { path: "/mission-control", element: _jsx(Dashboard, {}) }), 
         _jsx(Route, { path: "/earth-observation", element: _jsx(InteractiveMap, {}) }), 
         _jsx(Route, { path: "/environmental-intelligence", element: _jsx(HchoAnalysis, {}) }), 

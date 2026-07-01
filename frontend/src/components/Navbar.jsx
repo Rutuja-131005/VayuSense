@@ -39,25 +39,34 @@ const Navbar = () => {
             </div>
 
             <nav className="navbar-nav-horizontal" ref={navRef}>
-                <NavLink to="/" className="nav-link-item" end>
-                    Home
-                </NavLink>
-                
-                <NavLink to="/mission-control" className="nav-link-item">
-                    Mission Control
-                </NavLink>
-
                 <div className={`nav-dropdown ${openMenu === 'satellite' ? 'open' : ''}`}>
                     <button 
                         className={`nav-dropdown-trigger ${isSatelliteIntelligenceActive ? 'active' : ''}`}
                         onClick={() => toggleMenu('satellite')}
+                        style={{
+                            border: '1px solid rgba(6, 182, 212, 0.4)',
+                            background: 'rgba(6, 182, 212, 0.05)',
+                            boxShadow: '0 0 10px rgba(6, 182, 212, 0.1)',
+                            borderRadius: 'var(--radius-sm)',
+                            color: 'var(--text-primary)',
+                            padding: '8px 16px'
+                        }}
                     >
-                        Satellite Intelligence ▾
+                        🛰️ Satellite Intelligence ▾
                     </button>
-                    <div className="nav-dropdown-menu">
-                        <NavLink to="/earth-observation">Live Earth Observation</NavLink>
-                        <NavLink to="/environmental-intelligence">Environmental Intelligence</NavLink>
-                        <NavLink to="/predictions">AI Predictions</NavLink>
+                    <div className="nav-dropdown-menu" style={{ minWidth: '260px' }}>
+                        <NavLink to="/earth-observation" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px' }}>
+                            <span>Live Earth Observation</span>
+                            <span style={{ fontSize: '9px', background: 'rgba(16, 185, 129, 0.15)', color: 'var(--accent-green)', padding: '2px 6px', borderRadius: '10px', fontWeight: 700, marginLeft: '8px', letterSpacing: '0.5px' }}>LIVE</span>
+                        </NavLink>
+                        <NavLink to="/environmental-intelligence" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px' }}>
+                            <span>Environmental Intelligence</span>
+                            <span style={{ fontSize: '9px', background: 'rgba(139, 92, 246, 0.15)', color: 'var(--accent-purple)', padding: '2px 6px', borderRadius: '10px', fontWeight: 700, marginLeft: '8px', letterSpacing: '0.5px' }}>HOTSPOTS</span>
+                        </NavLink>
+                        <NavLink to="/predictions" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px' }}>
+                            <span>AI Prediction</span>
+                            <span style={{ fontSize: '9px', background: 'rgba(255, 138, 55, 0.15)', color: 'var(--accent-orange)', padding: '2px 6px', borderRadius: '10px', fontWeight: 700, marginLeft: '8px', letterSpacing: '0.5px' }}>CNN-LSTM</span>
+                        </NavLink>
                     </div>
                 </div>
 
@@ -65,8 +74,14 @@ const Navbar = () => {
                     <button 
                         className={`nav-dropdown-trigger ${isDecisionEngineActive ? 'active' : ''}`}
                         onClick={() => toggleMenu('decision')}
+                        style={{
+                            border: '1px solid rgba(255, 138, 55, 0.3)',
+                            background: 'rgba(255, 138, 55, 0.03)',
+                            borderRadius: 'var(--radius-sm)',
+                            padding: '8px 16px'
+                        }}
                     >
-                        Decision Engine ▾
+                        ⚙️ Decision Engine ▾
                     </button>
                     <div className="nav-dropdown-menu">
                         <NavLink to="/decision-support">Decision Support</NavLink>
