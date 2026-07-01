@@ -2,6 +2,8 @@
 
 > **Developed for ISRO Hackathon 2026 (Bhartiya Antariksh Hackathon)** — *Theme: Development of Surface AQI & Identification of HCHO Hotspots over India using Satellite Data.*
 
+🔗 **Live Prototype URL**: [https://vayu-sense-43ay.vercel.app/](https://vayu-sense-43ay.vercel.app/)
+
 ---
 
 ## 🌟 Introduction & Impact
