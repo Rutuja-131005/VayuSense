@@ -129,7 +129,7 @@ VayuSense
 
 ## 👥 Team
 
-**Team Name:** VayuSense
+**Team Name:** VayuJyoti
 
 Developed for the **ISRO Bhartiya Antariksh Hackathon 2026**.
 
