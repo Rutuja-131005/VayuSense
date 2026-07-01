@@ -13,6 +13,26 @@ const Navbar = () => {
 
             <nav className="navbar-nav-horizontal">
                 <NavLink 
+                    to="/" 
+                    className="nav-link-item"
+                    end
+                    style={({ isActive }) => ({
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        border: isActive ? '1px solid rgba(59, 130, 246, 0.6)' : '1px solid transparent',
+                        background: isActive ? 'rgba(59, 130, 246, 0.12)' : 'transparent',
+                        boxShadow: isActive ? '0 0 10px rgba(59, 130, 246, 0.15)' : 'none',
+                        color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+                        fontWeight: isActive ? '600' : '500',
+                        padding: '8px 16px',
+                        borderRadius: 'var(--radius-sm)'
+                    })}
+                >
+                    📊 Executive Dashboard
+                </NavLink>
+
+                <NavLink 
                     to="/earth-observation" 
                     className="nav-link-item"
                     style={({ isActive }) => ({
