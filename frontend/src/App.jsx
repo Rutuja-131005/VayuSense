@@ -34,15 +34,6 @@ const App = () => {
                             _jsx(Sidebar, { isOpen: isSidebarOpen }),
                             _jsxs("main", {
                                 className: "main-content",
-                                style: {
-                                    flex: 1,
-                                    paddingTop: '64px',
-                                    minHeight: 'calc(100vh - 64px)',
-                                    background: '#0b132b',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    justifyContent: 'space-between'
-                                },
                                 children: [
                                     _jsxs("div", {
                                         style: { flex: 1 },

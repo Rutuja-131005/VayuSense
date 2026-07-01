@@ -19,21 +19,7 @@ const dataSources = [
 
 const Sidebar = ({ isOpen }) => {
     return (
-        <aside className={`left-sidebar ${isOpen ? 'open' : ''}`} style={{
-            position: 'fixed',
-            top: '64px',
-            left: 0,
-            bottom: 0,
-            width: '240px',
-            background: '#080d1a',
-            borderRight: '1px solid #1e293b',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            padding: '16px 12px',
-            zIndex: 900,
-            overflowY: 'auto'
-        }}>
+        <aside className={`left-sidebar ${isOpen ? 'open' : ''}`}>
             {/* Top Navigation Menu */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 {navItems.map((item, idx) => {
