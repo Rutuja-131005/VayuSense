@@ -1,49 +1,136 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-/**
- * Sidebar Navigation Component
- * ==============================
- * ISRO-styled sidebar with animated navigation links.
- */
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-const navSections = [
-    {
-        title: 'Command Center',
-        items: [
-            { path: '/', label: 'Home', icon: '🏠' },
-            { path: '/mission-control', label: 'Mission Control', icon: '📊' },
-        ],
-    },
-    {
-        title: 'Satellite Intelligence',
-        items: [
-            { path: '/earth-observation', label: 'Live Earth Observation', icon: '🌍' },
-            { path: '/environmental-intelligence', label: 'Environmental Intelligence', icon: '🔥' },
-            { path: '/predictions', label: 'AI Predictions', icon: '🤖' },
-        ],
-    },
-    {
-        title: 'Decision Engine',
-        items: [
-            { path: '/decision-support', label: 'Decision Support', icon: '💡' },
-            { path: '/scientific-validation', label: 'Scientific Validation', icon: '🔬' },
-            { path: '/research-analytics', label: 'Research Analytics', icon: '📈' },
-            { path: '/reports', label: 'Reports', icon: '📄' },
-        ],
-    },
-    {
-        title: 'System',
-        items: [
-            { path: '/system-health', label: 'System Health', icon: '⚙️' },
-        ],
-    },
+
+const navItems = [
+    { label: 'Dashboard', path: '/', icon: '📊' },
+    { label: 'AQI Map', path: '/earth-observation', icon: '🗺️' },
+    { label: 'HCHO Hotspots', path: '/environmental-intelligence', icon: '🧪' },
+    { label: 'AI Prediction', path: '/predictions', icon: '🧠' },
+    { label: 'Validation', path: '/scientific-validation', icon: '🔬' },
+    { label: 'Fire Monitor', path: '#fire', icon: '🔥', mock: true },
+    { label: 'Wind Analysis', path: '#wind', icon: '💨', mock: true },
+    { label: 'Alerts', path: '#alerts', icon: '🔔', mock: true, badge: 8 },
+    { label: 'Reports', path: '#reports', icon: '📋', mock: true },
+    { label: 'Health Advisory', path: '#health', icon: '❤️', mock: true },
+    { label: 'Data Layers', path: '#layers', icon: '🥞', mock: true },
+    { label: 'Settings', path: '#settings', icon: '⚙️', mock: true }
 ];
+
+const dataSources = [
+    { name: 'INSAT-3D', status: 'Online' },
+    { name: 'Sentinel-5P', status: 'Online' },
+    { name: 'ERA5', status: 'Online' },
+    { name: 'CPCB AQI', status: 'Online' },
+    { name: 'MODIS/VIIRS', status: 'Online' }
+];
+
 const Sidebar = () => {
-    return (_jsxs("aside", { className: "sidebar", children: [_jsxs("div", { className: "sidebar-logo", children: [_jsx("div", { className: "logo-icon", children: "\uD83D\uDEF0\uFE0F" }), _jsxs("div", { children: [_jsx("h1", { children: "VayuSense" }), _jsx("span", { children: "Satellite Intelligence" })] })] }), _jsx("nav", { className: "sidebar-nav", children: navSections.map((section) => (_jsxs("div", { children: [_jsx("div", { className: "nav-section-title", children: section.title }), section.items.map((item) => (_jsxs(NavLink, { to: item.path, className: ({ isActive }) => `nav-item ${isActive ? 'active' : ''}`, end: item.path === '/', children: [_jsx("span", { className: "nav-icon", children: item.icon }), item.label] }, item.path)))] }, section.title))) }), _jsxs("div", { style: {
-                    padding: '16px 20px',
-                    borderTop: '1px solid var(--border-subtle)',
-                    fontSize: '11px',
-                    color: 'var(--text-muted)',
-                }, children: ["ISRO Hackathon 2026", _jsx("br", {}), "v1.0.0 \u2022 Satellite-Powered"] })] }));
+    return (
+        <aside className="left-sidebar" style={{
+            position: 'fixed',
+            top: '64px',
+            left: 0,
+            bottom: 0,
+            width: '240px',
+            background: '#080d1a',
+            borderRight: '1px solid #1e293b',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            padding: '16px 12px',
+            zIndex: 900,
+            overflowY: 'auto'
+        }}>
+            {/* Top Navigation Menu */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                {navItems.map((item, idx) => {
+                    const activeStyle = {
+                        background: 'rgba(6, 182, 212, 0.12)',
+                        borderLeft: '3px solid var(--accent-cyan)',
+                        color: 'var(--text-primary)',
+                        fontWeight: 600
+                    };
+
+                    const normalStyle = {
+                        color: 'var(--text-secondary)',
+                        borderLeft: '3px solid transparent'
+                    };
+
+                    if (item.mock) {
+                        return (
+                            <div 
+                                key={idx}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    padding: '8px 12px',
+                                    fontSize: '13px',
+                                    borderRadius: '0 4px 4px 0',
+                                    cursor: 'not-allowed',
+                                    ...normalStyle
+                                }}
+                            >
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <span>{item.icon}</span>
+                                    <span>{item.label}</span>
+                                </div>
+                                {item.badge && (
+                                    <span style={{ fontSize: '9px', background: 'var(--accent-red)', color: 'white', padding: '1px 5px', borderRadius: '10px', fontWeight: 700 }}>
+                                        {item.badge}
+                                    </span>
+                                )}
+                            </div>
+                        );
+                    }
+
+                    return (
+                        <NavLink 
+                            key={idx}
+                            to={item.path}
+                            end={item.path === '/'}
+                            style={({ isActive }) => ({
+                                display: 'flex',
+                                alignItems: 'center',
+                                padding: '8px 12px',
+                                fontSize: '13px',
+                                borderRadius: '0 4px 4px 0',
+                                textDecoration: 'none',
+                                transition: 'all 0.15s ease',
+                                ...(isActive ? activeStyle : normalStyle)
+                            })}
+                        >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <span>{item.icon}</span>
+                                <span>{item.label}</span>
+                            </div>
+                        </NavLink>
+                    );
+                })}
+            </div>
+
+            {/* Bottom Data Status Widget */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #1e293b' }}>
+                <span style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>
+                    📡 DATA STATUS
+                </span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {dataSources.map((ds, idx) => (
+                        <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px' }}>
+                            <span style={{ color: 'var(--text-secondary)' }}>{ds.name}</span>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#10b981', fontWeight: 600 }}>
+                                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }} />
+                                {ds.status}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                    Last Updated: 10:30 AM IST
+                </div>
+            </div>
+        </aside>
+    );
 };
+
 export default Sidebar;
