@@ -358,7 +358,7 @@ body::before {
   display: none;
   position: absolute;
   top: 100%;
-  right: 0;
+  left: 0;
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
@@ -367,11 +367,17 @@ body::before {
   z-index: 1001;
   padding: 8px 0;
   margin-top: 4px;
-  animation: fadeIn 200ms ease;
+  animation: dropdownSlideIn 150ms ease;
 }
 
-.nav-dropdown:hover .nav-dropdown-menu {
+/* Click-based: show menu when .open class is present */
+.nav-dropdown.open .nav-dropdown-menu {
   display: block;
+}
+
+.nav-dropdown.open .nav-dropdown-trigger {
+  background: rgba(255, 138, 55, 0.12);
+  color: var(--text-primary);
 }
 
 .nav-dropdown-menu a {
@@ -394,7 +400,7 @@ body::before {
   font-weight: 600;
 }
 
-@keyframes fadeIn {
+@keyframes dropdownSlideIn {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
