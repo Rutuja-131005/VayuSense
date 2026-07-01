@@ -724,55 +724,22 @@ body::before {
   gap: 16px;
 }
 
-/* ── Responsive & Layout Grids ─────────────────────────────────── */
-.dashboard-main-grid {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.dashboard-analytics-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-
-/* Global media queries for all requested breakpoints */
-
-/* 1. Large Desktop & Ultra-wide Breakpoint (1920px+) */
-@media (min-width: 1920px) {
-  .page-container {
-    max-width: 1800px;
-    padding: 32px 48px;
-  }
-  body {
-    font-size: 17px;
-  }
-  .stat-card .stat-value {
-    font-size: 36px;
+@media (max-width: 1200px) {
+  .dashboard-analytics-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* 2. Standard Desktop Breakpoint (1440px - 1919px) */
-@media (min-width: 1440px) and (max-width: 1919px) {
-  .page-container {
-    max-width: 1400px;
-  }
-}
-
-/* 3. Laptop Breakpoint (1024px - 1439px) */
+/* laptop (1024px–1439px) */
 @media (max-width: 1439px) {
   .page-container {
-    padding: 20px 24px;
+    max-width: 100%;
+    padding: 16px 20px;
   }
 }
 
-/* 4. Tablet Breakpoint (768px - 1023px) */
+/* tablet (768px–1023px) */
 @media (max-width: 1023px) {
-  .page-container {
-    padding: 16px 20px;
-  }
   .left-sidebar {
     transform: translateX(-100%);
   }
@@ -788,62 +755,64 @@ body::before {
   .grid-2, .grid-3, .grid-map-sidebar {
     grid-template-columns: 1fr;
   }
-  /* Forms and Inputs scaling */
-  .form-select, .form-input, .btn {
-    font-size: 13px;
-    padding: 8px 12px;
-  }
-  .stat-card {
-    padding: 16px 20px;
-  }
-  .stat-card .stat-value {
-    font-size: 28px;
-  }
 }
 
-/* 5. Large Mobile Breakpoint (481px - 767px) */
+/* large mobile (481px–767px) */
 @media (max-width: 767px) {
   .page-container {
-    padding: 12px 16px;
+    padding: 12px;
   }
-  /* Collapse grids to 1 column */
-  .grid-2, .grid-3, .grid-map-sidebar, .dashboard-main-grid, .dashboard-analytics-grid {
-    grid-template-columns: 1fr !important;
-    gap: 12px;
+  .dashboard-analytics-grid {
+    grid-template-columns: 1fr;
   }
-  .stat-card .stat-value {
-    font-size: 24px;
-  }
-  .card-title {
-    font-size: 14px;
-  }
-}
-
-/* 6. Mobile Breakpoint (320px - 480px) */
-@media (max-width: 480px) {
-  .page-container {
-    padding: 8px 12px;
+  .top-header {
+    padding: 0 12px !important;
   }
   .card {
     padding: 16px;
   }
-  .stat-card {
-    padding: 12px 16px;
-  }
   .stat-card .stat-value {
-    font-size: 20px;
+    font-size: 26px;
   }
-  .form-group {
-    margin-bottom: 12px;
+}
+
+/* mobile (320px–480px) */
+@media (max-width: 480px) {
+  .page-container {
+    padding: 8px;
   }
-  .top-header {
-    height: 56px !important;
-    padding: 0 12px !important;
+  .top-header h1 {
+    font-size: 15px !important;
+  }
+  .top-header span {
+    font-size: 8px !important;
+  }
+  .card {
+    padding: 12px;
   }
   .left-sidebar {
-    top: 56px !important;
+    width: 100%; /* Full screen drawer on mobile */
   }
-  .main-content {
-    padding-top: 56px !important;
+  .stat-card .stat-value {
+    font-size: 22px;
+  }
+  .map-container {
+    height: 380px !important;
+  }
+}
+
+/* desktop (1440px and above) */
+@media (min-width: 1440px) {
+  .page-container {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+}
+
+/* large desktop (1920px+) */
+@media (min-width: 1920px) {
+  .page-container {
+    max-width: 1800px;
+    margin: 0 auto;
   }
 }
