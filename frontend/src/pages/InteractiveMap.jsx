@@ -271,28 +271,7 @@ const InteractiveMap = () => {
         veryPoor: currentActiveStations.filter(s => s.aqi > 300 && s.aqi <= 400).length,
         severe: currentActiveStations.filter(s => s.aqi > 400).length,
     };
-    return (_jsx("div", { className: "page-container animate-fade-in", children: _jsxs("div", { className: "grid-map-sidebar", children: [_jsxs("div", { style: { position: 'relative' }, children: [
-        _jsx("div", { ref: mapRef, className: "map-container", style: { height: '700px' } }),
-        _jsxs("div", { style: { 
-            position: 'absolute', bottom: '20px', left: '20px', right: '20px', zIndex: 400,
-            background: 'var(--bg-glass)', backdropFilter: 'blur(10px)', padding: '16px',
-            borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-subtle)',
-            display: 'flex', flexDirection: 'column', gap: '12px', boxShadow: 'var(--shadow-lg)'
-        }, children: [
-            _jsxs("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' }, children: [
-                _jsx("div", { style: { fontWeight: 600, fontSize: '14px' }, children: "Temporal Intelligence & Playback" }),
-                _jsxs("div", { style: { display: 'flex', gap: '16px', alignItems: 'center' }, children: [
-                    _jsx("label", { style: { fontSize: '12px', color: 'var(--text-muted)' }, children: "Global Opacity:" }),
-                    _jsx("input", { type: "range", min: "0", max: "100", defaultValue: "80", style: { width: '100px', accentColor: 'var(--accent-cyan)' } })
-                ] })
-            ] }),
-            _jsxs("div", { style: { display: 'flex', alignItems: 'center', gap: '16px' }, children: [
-                _jsx("button", { className: "btn btn-primary", style: { padding: '6px 12px', fontSize: '12px' }, children: "▶ Play" }),
-                _jsx("input", { type: "range", min: "1", max: "24", defaultValue: "12", style: { flex: 1, accentColor: 'var(--accent-blue)' } }),
-                _jsx("div", { style: { fontSize: '12px', color: 'var(--text-secondary)', minWidth: '80px', textAlign: 'right' }, children: "12:00 UTC" })
-            ] })
-        ] })
-    ] }), _jsxs("div", { style: { display: 'flex', flexDirection: 'column', gap: '16px' }, children: [_jsxs("div", { className: "card", children: [_jsxs("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }, children: [_jsx("span", { className: "card-title", children: "Select States" }), _selectedStates.length > 0 && (_jsx("button", { onClick: clearAllStates, style: {
+    return (_jsx("div", { className: "page-container animate-fade-in", children: _jsxs("div", { className: "grid-map-sidebar", children: [_jsx("div", { style: { position: 'relative' }, children: _jsx("div", { ref: mapRef, className: "map-container", style: { height: '700px' } }) }), _jsxs("div", { style: { display: 'flex', flexDirection: 'column', gap: '16px' }, children: [_jsxs("div", { className: "card", children: [_jsxs("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }, children: [_jsx("span", { className: "card-title", children: "Select States" }), _selectedStates.length > 0 && (_jsx("button", { onClick: clearAllStates, style: {
                                                 background: 'transparent',
                                                 border: 'none',
                                                 color: 'var(--accent-cyan)',

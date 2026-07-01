@@ -8,25 +8,31 @@
 
 /* ── CSS Custom Properties ─────────────────────────────────────── */
 :root {
-  /* Primary Palette — ISRO deep space theme */
-  --bg-primary: #0a0e1a;
-  --bg-secondary: #111827;
-  --bg-card: #1a2235;
-  --bg-card-hover: #1f2a40;
-  --bg-glass: rgba(26, 34, 53, 0.85);
+  /* Primary Palette — ISRO & BAH 2026 space-tech dark theme */
+  --bg-primary: #04060d;
+  --bg-secondary: #0a0c16;
+  --bg-card: #111422;
+  --bg-card-hover: #171c30;
+  --bg-glass: rgba(10, 12, 22, 0.85);
 
-  /* Accent colours */
+  /* Accent colours (BAH 2026 Saffron Orange & Deep Space Blue) */
   --accent-blue: #3b82f6;
   --accent-cyan: #06b6d4;
   --accent-teal: #14b8a6;
-  --accent-orange: #f97316;
+  --accent-orange: #FF8A37;
   --accent-red: #ef4444;
   --accent-purple: #8b5cf6;
-  --accent-green: #22c55e;
+  --accent-green: #10b981;
+
+  /* Gradients */
+  --gradient-bah: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-blue) 100%);
+  --gradient-orange: linear-gradient(135deg, #FF8A37 0%, #ff6a00 100%);
+  --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  --gradient-dark: linear-gradient(180deg, #111422 0%, #0a0c16 100%);
 
   /* Text */
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
   --text-muted: #64748b;
 
   /* AQI Colours (CPCB Standard) */
@@ -38,15 +44,18 @@
   --aqi-severe: #660099;
 
   /* Borders & Shadows */
-  --border-color: rgba(59, 130, 246, 0.15);
-  --border-subtle: rgba(148, 163, 184, 0.1);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
+  --border-color: rgba(255, 138, 55, 0.25);
+  --border-subtle: rgba(59, 130, 246, 0.15);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.8);
+  --shadow-glow: 0 0 25px rgba(255, 138, 55, 0.15);
+  --shadow-glow-blue: 0 0 25px rgba(59, 130, 246, 0.15);
 
   /* Typography */
   --font-primary: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-display: 'Orbitron', 'Inter', sans-serif;
+  --font-label: 'Abel', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* Spacing */
@@ -120,7 +129,7 @@ body::before {
 
 .main-content {
   flex: 1;
-  margin-left: var(--sidebar-width);
+  margin-left: 0;
   padding-top: var(--navbar-height);
   min-height: 100vh;
   transition: margin-left var(--transition-smooth);
@@ -235,31 +244,161 @@ body::before {
 .navbar {
   position: fixed;
   top: 0;
-  left: var(--sidebar-width);
+  left: 0;
   right: 0;
   height: var(--navbar-height);
   background: var(--bg-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
-  z-index: 99;
+  padding: 0 40px;
+  z-index: 1000;
 }
 
-.navbar-title {
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-logo .logo-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--accent-orange), var(--accent-blue));
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 18px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.navbar-logo .logo-text h1 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.navbar-logo .logo-text span {
+  font-size: 10px;
+  color: var(--accent-orange);
   font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.navbar-nav-horizontal {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link-item {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.nav-link-item:hover {
+  background: rgba(255, 138, 55, 0.08);
   color: var(--text-primary);
 }
 
-.navbar-actions {
+.nav-link-item.active {
+  background: rgba(255, 138, 55, 0.15);
+  color: var(--accent-orange);
+  font-weight: 600;
+}
+
+/* Dropdown Menu styling */
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-dropdown-trigger {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 6px;
+  transition: all var(--transition-fast);
 }
+
+.nav-dropdown-trigger:hover {
+  background: rgba(255, 138, 55, 0.08);
+  color: var(--text-primary);
+}
+
+.nav-dropdown-trigger.active {
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--accent-blue);
+  font-weight: 600;
+}
+
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  min-width: 220px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1001;
+  padding: 8px 0;
+  margin-top: 4px;
+  animation: fadeIn 200ms ease;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu {
+  display: block;
+}
+
+.nav-dropdown-menu a {
+  display: block;
+  padding: 10px 20px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13px;
+  transition: all var(--transition-fast);
+}
+
+.nav-dropdown-menu a:hover {
+  background: rgba(255, 138, 55, 0.08);
+  color: var(--text-primary);
+}
+
+.nav-dropdown-menu a.active {
+  background: rgba(255, 138, 55, 0.15);
+  color: var(--accent-orange);
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 
 /* ── Cards ─────────────────────────────────────────────────────── */
 .card {
@@ -267,12 +406,15 @@ body::before {
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   padding: 24px;
-  transition: all var(--transition-normal);
+  transition: all var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
 }
 
 .card:hover {
-  border-color: var(--border-color);
+  border-color: var(--accent-orange);
   box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
 }
 
 .card-header {
@@ -283,13 +425,16 @@ body::before {
 }
 
 .card-title {
+  font-family: var(--font-display);
   font-size: 16px;
   font-weight: 600;
   color: var(--text-primary);
+  letter-spacing: 0.5px;
 }
 
 .card-subtitle {
-  font-size: 12px;
+  font-family: var(--font-label);
+  font-size: 13px;
   color: var(--text-muted);
   margin-top: 2px;
 }
@@ -309,7 +454,7 @@ body::before {
   padding: 20px 24px;
   position: relative;
   overflow: hidden;
-  transition: all var(--transition-normal);
+  transition: all var(--transition-smooth);
 }
 
 .stat-card::before {
@@ -330,20 +475,42 @@ body::before {
 .stat-card.purple::before { background: var(--accent-purple); }
 
 .stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--border-color);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--shadow-glow-blue);
+  border-color: var(--accent-blue);
+}
+
+.stat-card.orange:hover {
+  box-shadow: var(--shadow-glow);
+  border-color: var(--accent-orange);
+}
+
+.stat-card.red:hover {
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.2);
+  border-color: var(--accent-red);
+}
+
+.stat-card.green:hover {
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
+  border-color: var(--accent-green);
+}
+
+.stat-card.purple:hover {
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.2);
+  border-color: var(--accent-purple);
 }
 
 .stat-card .stat-label {
-  font-size: 12px;
+  font-family: var(--font-label);
+  font-size: 13px;
   font-weight: 500;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 
 .stat-card .stat-value {
+  font-family: var(--font-display);
   font-size: 32px;
   font-weight: 700;
   color: var(--text-primary);

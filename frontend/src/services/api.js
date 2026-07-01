@@ -125,6 +125,13 @@ class ApiService {
         });
         return data;
     }
+    // ── Global Comparison ───────────────────────────────────────
+    async getGlobalComparison(aqi) {
+        const { data } = await this.client.get('/api/aqi/global-comparison', {
+            params: { aqi },
+        });
+        return data;
+    }
     // ── Health ──────────────────────────────────────────────────
     async healthCheck() {
         const { data } = await this.client.get('/health');

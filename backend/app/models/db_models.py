@@ -227,3 +227,30 @@ class FireEvent(Base):
     confidence = Column(Float, nullable=True)     # Detection confidence (%)
     day_night = Column(String(1), nullable=True)  # D or N
     state = Column(String(100))
+
+
+# ─────────────────────────────────────────────────────────────────
+# 8. Global Case Studies (Solutions Comparison)
+# ─────────────────────────────────────────────────────────────────
+class GlobalCaseStudy(Base):
+    """
+    Historical international case studies documenting how specific cities/regions
+    combated similar air pollution episodes in the past.
+    """
+
+    __tablename__ = "global_case_studies"
+
+    id = Column(Integer, primary_key=True, index=True)
+    target_city = Column(String(100), nullable=False)
+    target_country = Column(String(100), nullable=False)
+    historical_aqi = Column(Integer, nullable=False)
+    aqi_category = Column(String(50), nullable=False)  # Moderate, Poor, Very Poor, Severe
+    context = Column(Text, nullable=False)              # Background context of the event
+    policies = Column(Text, nullable=False)             # JSON list of policy measures
+    impact = Column(Text, nullable=False)               # Quantitative or qualitative impact metrics
+    source_docs = Column(Text, nullable=True)           # Original documentation source info or links
+
+    __table_args__ = (
+        Index("ix_case_study_aqi", "historical_aqi"),
+    )
+

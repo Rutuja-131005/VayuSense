@@ -13,7 +13,8 @@ from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.models.db_models import GroundStation, AQIMeasurement, AQIPrediction
+from app.models.db_models import GroundStation, AQIMeasurement, AQIPrediction, GlobalCaseStudy
+import json
 from app.schemas.pydantic_schemas import (
     AQIMeasurementResponse,
     GroundStationResponse,
@@ -316,3 +317,108 @@ def get_india_aqi_map():
         "grid_shape": [lat_steps, lon_steps],
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
+
+
+@router.get("/global-comparison")
+def get_global_comparison(aqi: int = Query(...), db: Session = Depends(get_db)):
+    """
+    Fetch a global city/region that faced a similar AQI level in the past,
+    including the policies, public actions, and metrics of what worked there.
+    """
+    if aqi <= 50:
+        return {
+            "status": "clean",
+            "message": "Air quality is good. No emergency actions needed.",
+            "comparison": None
+        }
+
+    # Determine matching category
+    if aqi <= 100:
+        category = "Moderate"
+    elif aqi <= 200:
+        category = "Poor"
+    elif aqi <= 300:
+        category = "Very Poor"
+    else:
+        category = "Severe"
+
+    # Query from database
+    case_study = db.query(GlobalCaseStudy).filter(GlobalCaseStudy.aqi_category == category).first()
+    
+    if not case_study:
+        # Fallback to closest matching AQI
+        all_cases = db.query(GlobalCaseStudy).all()
+        if all_cases:
+            case_study = min(all_cases, key=lambda c: abs(c.historical_aqi - aqi))
+
+    if case_study:
+        try:
+            policies_list = json.loads(case_study.policies)
+        except Exception:
+            # Fallback if it is not valid JSON
+            policies_list = [p.strip() for p in case_study.policies.split("\n") if p.strip()]
+
+        comparison = {
+            "target_city": f"{case_study.target_city}, {case_study.target_country}",
+            "historical_aqi": case_study.historical_aqi,
+            "context": case_study.context,
+            "policies": policies_list,
+            "impact": case_study.impact
+        }
+    else:
+        # Fallback to default hardcoded data if database is empty
+        if category == "Moderate":
+            comparison = {
+                "target_city": "Paris, France",
+                "historical_aqi": 95,
+                "context": "Spring smog episodes driven by agricultural ammonium nitrate aerosols and traffic.",
+                "policies": [
+                    "Temporary speed limit reductions (by 20 km/h) on major bypass expressways.",
+                    "Residential wood-burning restrictions enforced during high-emission periods.",
+                    "Subsidized public transit and residential parking to discourage private car usage."
+                ],
+                "impact": "Reduced local particulate traffic emissions by 15-20% within 48 hours."
+            }
+        elif category == "Poor":
+            comparison = {
+                "target_city": "Seoul, South Korea",
+                "historical_aqi": 178,
+                "context": "Fine dust (PM2.5) buildup combined with transboundary pollution from regional industrial belts.",
+                "policies": [
+                    "Alternative-day driving (odd-even license plate rules) enforced for public sector employees.",
+                    "Operation curbs on coal-fired power plants (capping at maximum 80% capacity).",
+                    "High-pressure water flushing trucks deployed on 500+ kilometers of central urban roads."
+                ],
+                "impact": "Decreased PM2.5 concentrations in target zones by 12% over 3 days."
+            }
+        elif category == "Very Poor":
+            comparison = {
+                "target_city": "London, United Kingdom",
+                "historical_aqi": 240,
+                "context": "Historical winter smog and modern diesel NO2 emissions.",
+                "policies": [
+                    "Introduction of the Ultra Low Emission Zone (ULEZ) charging high-pollution vehicles entering the center.",
+                    "Retrofitting 100% of public transit buses to Euro VI low-emission standards.",
+                    "Dynamic smart traffic signals to prevent vehicle idling in heavy emission gridlock spots."
+                ],
+                "impact": "Contributed to a 44% reduction in roadside nitrogen dioxide (NO2) over 2 years."
+            }
+        else:
+            comparison = {
+                "target_city": "Beijing, China",
+                "historical_aqi": 420,
+                "context": "Severe winter coal heating emissions and stagnant meteorological inversion layers.",
+                "policies": [
+                    "Enforcement of 'Red Alert' protocols: total shutdown of 1,200+ heavy manufacturing factories.",
+                    "Mandatory odd-even driving restrictions for all private passenger vehicles.",
+                    "Complete transition of all residential heating from coal-burning boilers to natural gas."
+                ],
+                "impact": "Led to a 35% reduction in annual PM2.5 concentrations over a 4-year clean air action plan."
+            }
+
+    return {
+        "status": "alert",
+        "aqi_level": aqi,
+        "comparison": comparison
+    }
+
